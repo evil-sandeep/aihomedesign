@@ -30,6 +30,23 @@ const Studio = () => {
         scrollToBottom();
     }, [messages, isTyping]);
 
+    useEffect(() => {
+        if (user && (messages.length > 1 || layout || palette || renders.length > 0)) {
+            const saveHistory = async () => {
+                try {
+                    const config = {
+                        headers: { Authorization: `Bearer ${user.token}` }
+                    };
+                    await axios.post(`${import.meta.env.VITE_API_URL}/ai/history`, { messages, layout, palette, renders }, config);
+                } catch (error) {
+                    console.error('Failed to sync history:', error);
+                }
+            };
+            const timeoutId = setTimeout(saveHistory, 1000);
+            return () => clearTimeout(timeoutId);
+        }
+    }, [messages, layout, palette, renders, user]);
+
     const handleSend = async () => {
         if (!input.trim()) return;
 
@@ -41,7 +58,7 @@ const Studio = () => {
         try {
             const config = {
                 headers: {
-                    Authorization: `Bearer ${user.token}`,
+                    ...(user?.token ? { Authorization: `Bearer ${user.token}` } : {}),
                 },
             };
 
@@ -70,7 +87,7 @@ const Studio = () => {
         try {
             const config = {
                 headers: {
-                    Authorization: `Bearer ${user.token}`,
+                    ...(user?.token ? { Authorization: `Bearer ${user.token}` } : {}),
                 },
             };
 
@@ -95,7 +112,7 @@ const Studio = () => {
         try {
             const config = {
                 headers: {
-                    Authorization: `Bearer ${user.token}`,
+                    ...(user?.token ? { Authorization: `Bearer ${user.token}` } : {}),
                 },
             };
 
@@ -125,7 +142,7 @@ const Studio = () => {
         try {
             const config = {
                 headers: {
-                    Authorization: `Bearer ${user.token}`,
+                    ...(user?.token ? { Authorization: `Bearer ${user.token}` } : {}),
                 },
             };
 
@@ -150,7 +167,7 @@ const Studio = () => {
         try {
             const config = {
                 headers: {
-                    Authorization: `Bearer ${user.token}`,
+                    ...(user?.token ? { Authorization: `Bearer ${user.token}` } : {}),
                 },
             };
 
@@ -178,7 +195,7 @@ const Studio = () => {
         try {
             const config = {
                 headers: {
-                    Authorization: `Bearer ${user.token}`,
+                    ...(user?.token ? { Authorization: `Bearer ${user.token}` } : {}),
                 },
                 responseType: 'blob'
             };
@@ -206,7 +223,7 @@ const Studio = () => {
         try {
             const config = {
                 headers: {
-                    Authorization: `Bearer ${user.token}`,
+                    ...(user?.token ? { Authorization: `Bearer ${user.token}` } : {}),
                 },
                 responseType: 'blob'
             };
@@ -247,7 +264,7 @@ const Studio = () => {
         try {
             const config = {
                 headers: {
-                    Authorization: `Bearer ${user.token}`,
+                    ...(user?.token ? { Authorization: `Bearer ${user.token}` } : {}),
                 },
             };
 
@@ -280,7 +297,16 @@ const Studio = () => {
                         <span className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-xs">AI</span>
                         Studio
                     </h1>
-                    <button onClick={logout} className="text-xs font-semibold text-slate-400 hover:text-red-500 transition-colors uppercase tracking-widest">Logout</button>
+                    <div className="flex items-center gap-3">
+                        {!user && (
+                            <span className="text-xs text-amber-500 font-medium">Login to save your history</span>
+                        )}
+                        {user ? (
+                            <button onClick={logout} className="text-xs font-semibold text-slate-400 hover:text-red-500 transition-colors uppercase tracking-widest">Logout</button>
+                        ) : (
+                            <a href="/login" className="text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors uppercase tracking-widest">Sign In</a>
+                        )}
+                    </div>
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-4 space-y-4">

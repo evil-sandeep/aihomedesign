@@ -26,11 +26,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route
               path="/studio"
-              element={
-                <ProtectedRoute>
-                  <Studio />
-                </ProtectedRoute>
-              }
+              element={<Studio />}
             />
           </Routes>
         </div>

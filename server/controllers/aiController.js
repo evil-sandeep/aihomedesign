@@ -3,6 +3,7 @@ const axios = require('axios');
 const asyncHandler = require('../middleware/asyncHandler');
 const { generateChatCompletion, generateJSONCompletion } = require('../utils/openrouterClient');
 const { generateArchitecturalRender, generateMultipleImages } = require('../utils/deepaiClient');
+const History = require('../models/History');
 
 // Keep OpenAI as fallback (optional - can be removed later)
 // const OpenAI = require('openai');
@@ -259,6 +260,40 @@ const { drawBlueprintBuffer, drawBlueprintCanvas } = require('../utils/blueprint
 // ... existing code ...
 
 // Phase 5: Export/Download
+// Phase 4.5: Save History
+const saveHistory = asyncHandler(async (req, res) => {
+    const { messages, layout, palette, renders } = req.body;
+
+    if (!req.user) {
+        return res.status(401).json({ message: 'Must be logged in to save history' });
+    }
+
+    try {
+        let history = await History.findOne({ user: req.user._id });
+
+        if (history) {
+            history.messages = messages || history.messages;
+            history.layout = layout || history.layout;
+            history.palette = palette || history.palette;
+            history.renders = renders || history.renders;
+            await history.save();
+        } else {
+            history = await History.create({
+                user: req.user._id,
+                messages: messages || [],
+                layout: layout || null,
+                palette: palette || null,
+                renders: renders || []
+            });
+        }
+
+        res.json(history);
+    } catch (error) {
+        console.error('History save failed:', error);
+        res.status(500).json({ message: 'Failed to save history' });
+    }
+});
+
 // Helper to add "PREVIEW" watermark
 const addPreviewWatermark = (canvas) => {
     const ctx = canvas.getContext('2d');
@@ -306,7 +341,7 @@ const downloadAllAssets = asyncHandler(async (req, res) => {
     const { layout, renders, floorRenders, interiorRenders } = req.body;
 
     try {
-        if (!req.user.isPaid) {
+        if (!req.user || !req.user.isPaid) {
             return res.status(403).json({ message: 'Upgrade to PRO to access Bulk Design Portfolios' });
         }
         const archive = archiver('zip', { zlib: { level: 9 } });
@@ -368,5 +403,6 @@ module.exports = {
     generateInteriorRenders,
     generateColorPalette,
     downloadBlueprint,
-    downloadAllAssets
+    downloadAllAssets,
+    saveHistory
 };
