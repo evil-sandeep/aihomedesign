@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Logo from '../components/Logo';
 
 const Home = () => {
     return (
@@ -10,7 +11,7 @@ const Home = () => {
             </div>
 
             <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">
-                <img src="/logo.png" alt="AI Home Design Logo" className="w-32 h-32 mb-8 drop-shadow-2xl animate-fade-in" />
+                <Logo className="w-32 h-32 mb-8 drop-shadow-2xl animate-fade-in" />
                 <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6">
                     Architect Your Dream with <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">AI</span>
                 </h1>

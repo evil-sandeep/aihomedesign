@@ -5,6 +5,7 @@ import BlueprintVisualizer from '../components/BlueprintVisualizer';
 import ColorStudio from '../components/ColorStudio';
 import RenderGallery from '../components/RenderGallery';
 import DownloadSection from '../components/DownloadSection';
+import Logo from '../components/Logo';
 
 const Studio = () => {
     const { user, logout } = useContext(AuthContext);
@@ -294,7 +295,7 @@ const Studio = () => {
             <div className={`w-1/3 flex flex-col border-r border-slate-200 bg-slate-50 transition-all ${view !== 'blueprint' ? 'opacity-50 pointer-events-none grayscale' : ''}`}>
                 <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-white">
                     <h1 className="font-bold text-slate-800 flex items-center gap-2">
-                        <img src="/logo.png" alt="AI Home Design" className="w-10 h-10 object-contain" />
+                        <Logo className="w-10 h-10" />
                         Studio
                     </h1>
                     <div className="flex items-center gap-3">

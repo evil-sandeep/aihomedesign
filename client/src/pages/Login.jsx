@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import AuthContext from '../context/AuthContext';
+import Logo from '../components/Logo';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -48,7 +49,7 @@ const Login = () => {
     return (
         <div className="flex items-center justify-center min-h-screen p-4">
             <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl border border-slate-100 flex flex-col items-center">
-                <img src="/logo.png" alt="AI Home Design Logo" className="w-20 h-20 mb-4" />
+                <Logo className="w-20 h-20 mb-4" />
                 <h2 className="mb-6 text-3xl font-bold text-center text-slate-800">Welcome Back</h2>
                 <form onSubmit={submitHandler} className="space-y-4">
                     <div>
