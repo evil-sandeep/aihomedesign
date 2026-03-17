@@ -53,7 +53,8 @@ const Register = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen p-4">
-            <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl border border-slate-100">
+            <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl border border-slate-100 flex flex-col items-center">
+                <img src="/logo.png" alt="AI Home Design Logo" className="w-20 h-20 mb-4" />
                 <h2 className="mb-6 text-3xl font-bold text-center text-slate-800">Create Account</h2>
                 <form onSubmit={submitHandler} className="space-y-4">
                     <div>

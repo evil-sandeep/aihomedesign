@@ -294,7 +294,7 @@ const Studio = () => {
             <div className={`w-1/3 flex flex-col border-r border-slate-200 bg-slate-50 transition-all ${view !== 'blueprint' ? 'opacity-50 pointer-events-none grayscale' : ''}`}>
                 <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-white">
                     <h1 className="font-bold text-slate-800 flex items-center gap-2">
-                        <span className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-xs">AI</span>
+                        <img src="/logo.png" alt="AI Home Design" className="w-10 h-10 object-contain" />
                         Studio
                     </h1>
                     <div className="flex items-center gap-3">
