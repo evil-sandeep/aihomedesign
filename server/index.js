@@ -17,6 +17,10 @@ app.use(cors());
 app.use(express.json());
 
 // Basic Route
+app.get('/', (req, res) => {
+    res.send('AI Home Design Backend is running...');
+});
+
 app.get('/api/health', (req, res) => {
     res.status(200).json({ message: 'Server is running' });
 });
